@@ -11,13 +11,13 @@ Tech Report  Biz Report
 from typing import Literal
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.graph import StateGraph, START, END
 from typing_extensions import TypedDict
 
 load_dotenv()
 
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash", temperature=0)
 
 
 class State(TypedDict):
@@ -34,7 +34,7 @@ def classifier(state: State) -> dict:
         f"Topic: {state['topic']}"
     )
     response = llm.invoke(prompt)
-    category = response.content.strip().lower()
+    category = response.text.strip().lower()
     if "technical" in category:
         state["category"] = "technical"
     else:
@@ -55,7 +55,7 @@ def technical_report(state: State) -> dict:
         f"Topic: {state['topic']}"
     )
     response = llm.invoke(prompt)
-    return {"report": response.content}
+    return {"report": response.text}
 
 
 def business_report(state: State) -> dict:
@@ -67,7 +67,7 @@ def business_report(state: State) -> dict:
         f"Topic: {state['topic']}"
     )
     response = llm.invoke(prompt)
-    return {"report": response.content}
+    return {"report": response.text}
 
 
 graph = (

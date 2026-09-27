@@ -55,5 +55,4 @@ cp .env.example .env   # then fill in your API keys
 Required environment variables (see `.env.example`):
 
 - `GOOGLE_API_KEY`
-- `OPENAI_API_KEY` (only for `langgraph_branching_agent/agent.py`)
 - `OPENWEATHER_API_KEY`
